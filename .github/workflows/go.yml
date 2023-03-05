@@ -21,13 +21,13 @@ jobs:
     - name: Build
       run: |
         go get .
-        go build -o ./release/tray_windows -ldflags "-s -w" main.go
+        go build -o ./release/tray_windows.exe -ldflags "-s -w" main.go
 
     - name: Upload release file
       uses: actions/upload-artifact@v3
       with:
-        name: tray_windows
-        path: ./release/tray_windows
+        name: tray_windows.exe
+        path: ./release/tray_windows.exe
 
   build_macos:
     name: Build macOS
