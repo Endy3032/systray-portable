@@ -1,0 +1,76 @@
+# This workflow will build a golang project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-go
+
+name: Go
+
+on: [push]
+
+jobs:
+  build_windows:
+    name: Build Windows
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.6
+        cache: true
+
+    - name: Build
+      run: |
+        go get .
+        go build -o ./release/tray_windows -ldflags "-s -w" main.go
+
+    - name: Upload release file
+      uses: actions/upload-artifact@v3
+      with:
+        name: tray_windows
+        path: ./release/tray_windows
+
+  build_macos:
+    name: Build macOS
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.6
+        cache: true
+
+    - name: Build
+      run: |
+        go get .
+        go build -o ./release/tray_macos -ldflags "-s -w" main.go
+
+    - name: Upload release file
+      uses: actions/upload-artifact@v3
+      with:
+        name: tray_macos
+        path: ./release/tray_macos
+
+  build_linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: 1.19.6
+        cache: true
+
+    - name: Build
+      run: |
+        go get .
+        go build -o ./release/tray_linux -ldflags "-s -w" main.go
+
+    - name: Upload release file
+      uses: actions/upload-artifact@v3
+      with:
+        name: tray_linux
+        path: ./release/tray_linux
